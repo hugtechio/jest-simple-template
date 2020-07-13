@@ -1,6 +1,6 @@
 {
   "name": "jest-simple-template",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "simple jest template based on iteration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "test": "yarn jest --silent --verbose"
   },
   "bin": {
-    "generate_test_case": "dist/generateTestCase.js"
+    "generate_test": "dist/generator.js"
   },
   "repository": {
     "type": "git",
