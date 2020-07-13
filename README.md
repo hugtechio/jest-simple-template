@@ -1,135 +1,247 @@
-# jest-aws-simple-mock
-Simple mocking aws sdk and the dynamodb-datamapper by using Jest.
-This module only has compatibility AWS SDK version 2.
+# jest-simple-template
 
-# Specification
+# concepts
+The concept of this template is to make closely test code to test document.
+So In this template, We use the describe.each method to define test code.
+The describe each is one of the jest feature.
+
+https://jestjs.io/docs/en/api#describeeachtablename-fn-timeout
+
+There are 2 principals
+
+# [Principal1] Meaning of table indexes
+The describe.each accepts test cases as table.
+This template gives meanings to each index below.
+
+index[0] - Object: Description of the test
+index[1] - Object: Input of the test
+index[2] - Function: Validate expectation of the test
+
+# [Principal2] Mocking Convention
+This template automatically call mocks in a mock file.
+Test method calls the mock definition which is matched the name of the test description(=index[0])
+
+# Usage
+To use this template, there are 3 steps.
+
+
+## Generate template
+First, generate template by the generate_test_case command
 ```
-import { mock<ServiceName> } from 'jest-aws-simple-mock'
-
-let spy mock<ServiceName>.<methodName>(<<returns>>)
+generate_test_case <<category>> <<name of the test>>
 ```
 
-# Examples 
+This command generates mocks and test template in the __tests__ folder.
 
-## AWS Lambda
++- <<root of the project>>
+  +- __tests__
+    +- <<category>>
+      +- <<name>>.test.ts
+      +- mocks.ts
+
+Important: currently, generator creates files only the __tests__ folder of project root.
+
+## Import target method
+Import target method in the test file
+
+
+```javascript
+const mocks: Mocks = {
+    OK: () => {
+      // write the code of mocking some objects
+    },
+    Duplicated: () => {
+      // write the code of mocking some objects
+    }
+}
+
+export default mocks
+
 ```
-import { mockLambda } from 'jest-aws-simple-mock'
 
-let spyLambda = mockLambda.invoke({
-  StatusCode: 200,
-  Payload: JSON.stringify({
-    hoge: 1
-  })
+```javascript
+
+import handler from '../src/target' <----
+
+/**
+ * Test Case Definition
+ *
+ * [0]: test description
+ * [1]: request(input)
+ * [2]: expect(output)
+ */
+const testCase = [
+    [
+        // [0]: description
+        {
+            name: 'OK',
+            description: 'should return succeeded response'
+        },
+        // [1]: request
+        request,
+        // [2]: expected
+        (result: {}) => {
+            expect(result).toBe(1)
+        }
+    ],
+    [
+        // [0]: description
+        {
+            name: 'Duplicated',
+            description: 'should return duplicate something error'
+        },
+        // [1]: request
+        request,
+        // [2]: expected
+        (result: {}) => {
+            expect(result).toBe('error')
+        }
+    ]
+]
+
+describe.each(testCase)('Publish state', (d, r, e) => {
+    beforeEach(() => {
+        jest.resetAllMocks()
+    })
+    const testMeta = d as TestCaseMetaData
+    it(`${testMeta.name}:${testMeta.description}`, async () => {
+        if (mocks.hasOwnProperty(testMeta.name)) {
+            mocks[testMeta.name]()
+        }
+
+        // @ts-ignore
+        const result = await handler(r)
+        const expected = e as (result: any) => void
+        expected(result)
+    })
 })
+```
+
+
+## import target handler
+
+# Test case example
+
+```javascript
+const mocks: Mocks = {
+    OK: () => {
+      // write the code of mocking some objects
+    },
+    Duplicated: () => {
+      // write the code of mocking some objects
+    }
+}
+
+export default mocks
 
 ```
 
-## DynamoDB Data Mapper
-```
-import { mockDynamo } from 'jest-aws-simple-mock'
+```javascript
+/**
+ * Test Case Definition
+ *
+ * [0]: test description
+ * [1]: request(input)
+ * [2]: expect(output)
+ */
+const testCase = [
+    [
+        // [0]: description
+        {
+            name: 'OK',
+            description: 'should return succeeded response'
+        },
+        // [1]: request
+        request,
+        // [2]: expected
+        (result: {}) => {
+            expect(result).toBe(1)
+        }
+    ],
+    [
+        // [0]: description
+        {
+            name: 'Duplicated',
+            description: 'should return duplicate something error'
+        },
+        // [1]: request
+        request,
+        // [2]: expected
+        (result: {}) => {
+            expect(result).toBe('error')
+        }
+    ]
+]
 
-mockDynamo.query([{1}, {2}])
-mockDynamo.get({3})
+describe.each(testCase)('Publish state', (d, r, e) => {
+    beforeEach(() => {
+        jest.resetAllMocks()
+    })
+    const testMeta = d as TestCaseMetaData
+    it(`${testMeta.name}:${testMeta.description}`, async () => {
+        if (mocks.hasOwnProperty(testMeta.name)) {
+            mocks[testMeta.name]()
+        }
 
-```
-
-## DynamoDB Document Client
-```
-import { mockDynamoDocClient } from 'jest-aws-simple-mock'
-mockDynamoDocClient.get({Item: {xxxxx}}
-```
-
-To see all functions which current handled, check below.
-
-# Mocking patterns
-
-### mock at once (only mock first invocation)
-```
-mockLambda.invoke(resultObject)
+        // @ts-ignore
+        const result = await handler(r)
+        const expected = e as (result: any) => void
+        expected(result)
+    })
+})
 ```
 
-### mock All invocation (mocking all calls of target function)
-```
-mockLambda.invokeAll(resultObject}
-```
-
-### mock with throw 
-```
-mockLambda.invokeThrow(resultObject}
-```
-
-## mock chaining
-all mock method returns jest.SpyInstance object.
-You can add mock if target function will be call multiply in the test.
-
-```
-let mock = mockLambda.invoke(result1) <-- first call mocking
-mock = mockLambda.invoke(result2, mock) <-- second call mocking
-```
-
-# Exported functions(2020.07.12)
+# Exported types and utilities
 
 ```javascript
 /// <reference types="jest" />
-export declare const mockAsyncIterator: (result: any) => any;
-export declare const mockAsyncIteratorPage: (result: any, last?: boolean) => any;
-export declare const currentVersion: (services: any) => any;
-interface Mock {
-    [method: string]: (result: any, mock?: jest.SpyInstance) => jest.SpyInstance;
+/**
+ * list of mocks
+ *
+ */
+export interface Mocks {
+    [name: string]: () => {
+        [name: string]: jest.SpyInstance;
+    };
 }
-export declare const genMock: (services: any, methods: string[]) => Mock;
-export declare const mockDynamo: {
-    query: (queryResult: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    queryPages: (queryResult: any, last?: boolean | undefined, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    queryTwice: (result1: any, result2: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    queryThrice: (result1: any, result2: any, result3: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    queryFourth: (result1: any, result2: any, result3: any, result4: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    queryAll: (queryResult: any) => jest.SpyInstance<any, any>;
-    get: (result: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    getTwice: (result1: any, result2: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    getThrice: (result1: any, result2: any, result3: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    getAll: (result: any) => jest.SpyInstance<any, any>;
-    put: (result: any) => jest.SpyInstance<any, any>;
-    putTwice: (result1: any, result2: any) => jest.SpyInstance<any, any>;
-    putThrice: (result1: any, result2: any, result3: any) => jest.SpyInstance<any, any>;
-    putAll: (result: any) => jest.SpyInstance<any, any>;
-    update: (result: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    updateTwice: (result1: any, result2: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    updateThrice: (result1: any, result2: any, result3: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    updateAll: (result: any) => jest.SpyInstance<any, any>;
-    delete: (result: any) => jest.SpyInstance<any, any>;
-    deleteTwice: (result1: any, result2: any) => jest.SpyInstance<any, any>;
-    deleteThrice: (result1: any, result2: any, result3: any) => jest.SpyInstance<any, any>;
-    deleteAll: (result: any) => jest.SpyInstance<any, any>;
-    batchGet: (result: any, mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    batchGetAll: (result: any) => jest.SpyInstance<any, any>;
-    batchDelete: (result: any) => jest.SpyInstance<any, any>;
-    batchDeleteAll: (result: any) => jest.SpyInstance<any, any>;
-    batchPut: (result: any) => jest.SpyInstance<any, any>;
-    queryWithThrow: (mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    getWithThrow: (mock?: jest.SpyInstance<any, any> | undefined) => jest.SpyInstance<any, any>;
-    executeUpdateExpression: (result: any) => jest.SpyInstance<any, any>;
-    executeUpdateExpressionAll: (result: any) => jest.SpyInstance<any, any>;
-};
-export declare const mockDynamoDocClient: {
-    get: (result: any) => jest.SpyInstance<any, any>;
-    getAll: (result: any) => jest.SpyInstance<any, any>;
-    put: (result: any) => jest.SpyInstance<any, any>;
-    putAll: (result: any) => jest.SpyInstance<any, any>;
-    update: (result: any) => jest.SpyInstance<any, any>;
-    updateAll: (result: any) => jest.SpyInstance<any, any>;
-};
-export declare const mockLambda: Mock;
-export declare const mockS3: Mock;
-export declare const mockCloudFront: Mock;
-export declare const mockEventBridge: Mock;
-export declare const mockStepFunctions: Mock;
-export declare const mockSqs: {
-    sendMessage: (result: {}) => jest.SpyInstance<any, any>;
-    sendMessageAll: (result: {}) => jest.SpyInstance<any, any>;
-};
-export declare const mockAcm: Mock;
-export declare const mockCognitoIdp: Mock;
-export declare const mockKms: Mock;
-export {};
+/**
+ * mocked object list
+ */
+export interface MockReturn {
+    [name: string]: jest.SpyInstance;
+}
+/**
+ * Test Case Description
+ */
+export interface TestCaseMetaData {
+    name: string;
+    description: string;
+}
+/**
+ * Test Case Expected function
+ * @param result: result from test target
+ * @param spies: mocked objects at ./mocks.ts
+ */
+export declare type TestCaseExpectedFunction = (result: {}, spies: MockReturn) => void;
+/**
+ * alter test input
+ * only input is object
+ * It's not supported nested key
+ */
+export interface AlterationParams {
+    [name: string]: any;
+}
+/**
+ * input alteration
+ * @param base based object
+ * @param alteration alter parameter
+ */
+export declare const alter: (base: {}, alteration: AlterationParams) => {};
+/**
+ *
+ * @param testCase list of the test
+ * @param name name of test case(should be matched name of test)
+ */
+export declare const sameAs: (testCase: any, name: string) => {};
+
 ```
