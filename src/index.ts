@@ -26,7 +26,7 @@ export interface TestCaseMetaData {
  * @param result: result from test target
  * @param spies: mocked objects at ./mocks.ts
  */
-export type TestCaseExpectedFunction = (result: {}, spies: MockReturn) => void
+export type TestCaseExpectedFunction = (result: any, spies: MockReturn) => void
 
 /**
  * alter test input
