@@ -1,6 +1,6 @@
 {
   "name": "jest-simple-template",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "simple jest template based on iteration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hugtechio/jest-aws-simple-mock.git"
+    "url": "git+https://github.com/hugtechio/jest-simple-template.git"
   },
   "keywords": [
     "jest",
@@ -22,9 +22,9 @@
   "author": "hugtech.io",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hugtechio/jest-aws-simple-mock/issues"
+    "url": "https://github.com/hugtechio/jest-simple-template/issues"
   },
-  "homepage": "https://github.com/hugtechio/jest-aws-simple-mock#readme",
+  "homepage": "https://github.com/hugtechio/jest-simple-template#readme",
   "files": [
     "dist/"
   ],
@@ -35,13 +35,11 @@
     ]
   },
   "dependencies": {
-    "@aws/dynamodb-data-mapper": "^0.7.3",
     "uuidv4": "^6.1.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "@types/node": "^14.0.22",
-    "aws-sdk": "^2.612.0",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.3"
