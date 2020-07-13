@@ -1,12 +1,13 @@
-import * as fs from 'fs'
-import { uuid } from 'uuidv4'
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require("fs");
+const uuidv4_1 = require("uuidv4");
 /**
- * 
+ *
  * @param name name of test
  * @param resultType result type definition of target function
  */
-export const testTemplate = (name:string = 'Succeeded', resultType:string = '{}'): string => {
+exports.testTemplate = (name = 'Succeeded', resultType = '{}') => {
     return `
 import { TestCaseMetaData, MockReturn, TestCaseExpectedFunction } from 'jest-simple-template'
 import mocks from './mocks'
@@ -52,14 +53,13 @@ describe.each(testCase)('Test name', (d, r, e) => {
         expected(result, spies)
     })
 })
-`
-}
-
+`;
+};
 /**
- * 
+ *
  * @param name mock template name
  */
-const mockTemplate = (name: string): string => {
+const mockTemplate = (name) => {
     return `    
     import { Mocks } from 'jest-simple-template'
 
@@ -70,37 +70,24 @@ const mockTemplate = (name: string): string => {
     }
     
     export default mocks
-    `
-}
-
+    `;
+};
 /**
  * Generate test set
  * @param testCaseDirectory path to save directory
  * @param name name of test
  */
-const generate = (testCaseDirectory: string, name: string): string => {
-    const dist = `__tests__/${testCaseDirectory}` 
-    console.log(dist)
-    const dir = fs.mkdirSync(
-        `__tests__/${testCaseDirectory}`,
-        {recursive: true}
-    )
-    console.log(dir)
-
-    const f1 = fs.writeFileSync(
-        `${dist}/${name}.test.ts`,
-        testTemplate(name)
-    )
-    const f2 = fs.writeFileSync(
-        `${dist}/mocks.ts`,
-        mockTemplate(name)
-    )
-    return ''
-}
-
-const category = (process.argv[2]) ? process.argv[2] : `test-${uuid().slice(0,8)}`
-console.log('directory:', category)
-const name = (process.argv[3]) ? process.argv[3] : `case-${uuid().slice(0,8)}`
-console.log('file:', name)
-
-generate(category, name)
+const generate = (testCaseDirectory, name) => {
+    const dist = `__tests__/${testCaseDirectory}`;
+    console.log(dist);
+    const dir = fs.mkdirSync(`__tests__/${testCaseDirectory}`, { recursive: true });
+    console.log(dir);
+    const f1 = fs.writeFileSync(`${dist}/${name}.test.ts`, exports.testTemplate(name));
+    const f2 = fs.writeFileSync(`${dist}/mocks.ts`, mockTemplate(name));
+    return '';
+};
+const category = (process.argv[2]) ? process.argv[2] : `test-${uuidv4_1.uuid().slice(0, 8)}`;
+console.log('directory:', category);
+const name = (process.argv[3]) ? process.argv[3] : `case-${uuidv4_1.uuid().slice(0, 8)}`;
+console.log('file:', name);
+generate(category, name);

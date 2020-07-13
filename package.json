@@ -1,14 +1,15 @@
 {
   "name": "jest-simple-template",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "simple jest template based on iteration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "yarn jest --silent --verbose"
+    "test": "yarn jest --silent --verbose",
+    "start": "node -r ts-node/register bin/generator.js"
   },
   "bin": {
-    "generate_test": "dist/generator.js"
+    "generate_test_set": "./bin/generator.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/hugtechio/jest-simple-template#readme",
   "files": [
+    "bin/",
     "dist/"
   ],
   "jest": {
@@ -40,6 +42,7 @@
     "@types/node": "^14.0.22",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
+    "ts-node": "^8.10.2",
     "typescript": "^3.7.3"
   }
 }
