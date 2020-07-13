@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-const uuidv4_1 = require("uuidv4");
+const uuidv4 = require("uuidv4");
 /**
  *
  * @param name name of test
@@ -86,8 +84,8 @@ const generate = (testCaseDirectory, name) => {
     const f2 = fs.writeFileSync(`${dist}/mocks.ts`, mockTemplate(name));
     return '';
 };
-const category = (process.argv[2]) ? process.argv[2] : `test-${uuidv4_1.uuid().slice(0, 8)}`;
+const category = (process.argv[2]) ? process.argv[2] : `test-${uuidv4.uuid().slice(0, 8)}`;
 console.log('directory:', category);
-const name = (process.argv[3]) ? process.argv[3] : `case-${uuidv4_1.uuid().slice(0, 8)}`;
+const name = (process.argv[3]) ? process.argv[3] : `case-${uuidv4.uuid().slice(0, 8)}`;
 console.log('file:', name);
 generate(category, name);
