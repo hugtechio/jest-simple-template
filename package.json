@@ -1,6 +1,6 @@
 {
   "name": "jest-simple-template",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "simple jest template based on iteration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,9 +15,7 @@
     "url": "git+https://github.com/hugtechio/jest-simple-template.git"
   },
   "keywords": [
-    "jest",
-    "aws-sdk",
-    "dynamodb-data-mapper"
+    "jest"
   ],
   "author": "hugtech.io",
   "license": "MIT",
