@@ -1,5 +1,10 @@
+#!/usr/bin/env node
+
+'use strict';
+
 const fs = require("fs");
 const uuidv4 = require("uuidv4");
+
 /**
  *
  * @param name name of test
