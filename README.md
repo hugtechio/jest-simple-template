@@ -13,19 +13,20 @@ There are 2 principals
 The describe.each accepts test cases as table.
 This template gives meanings to each index below.
 
-index[0] - Object: Description of the test
-index[1] - Object: Input of the test
-index[2] - Function: Validate expectation of the test
+**index[0] - Object: Description of the test**  
+**index[1] - Object: Input of the test**  
+**index[2] - Function: Validate expectation of the test**  
+
 
 # [Principal2] Mocking Convention
 This template automatically call mocks in a mock file.
 Test method calls the mock definition which is matched the name of the test description(=index[0])
 
 # Usage
-To use this template, there are 3 steps.
+To use this template, there are 2 steps for preparation.
 
 
-## Generate template
+## 1. Generate template
 First, generate template by the generate_test_case command
 ```
 generate_test_case <<category>> <<name of the test>>
@@ -33,35 +34,24 @@ generate_test_case <<category>> <<name of the test>>
 
 This command generates mocks and test template in the __tests__ folder.
 
-+- <<root of the project>>
-  +- __tests__
-    +- <<category>>
-      +- <<name>>.test.ts
-      +- mocks.ts
-
-Important: currently, generator creates files only the __tests__ folder of project root.
-
-## Import target method
-Import target method in the test file
-
-
-```javascript
-const mocks: Mocks = {
-    OK: () => {
-      // write the code of mocking some objects
-    },
-    Duplicated: () => {
-      // write the code of mocking some objects
-    }
-}
-
-export default mocks
-
+```
++- <<root of the project>>  
+  +- __tests__  
+    +- <<category>>  
+      +- <<name>>.test.ts  
+      +- mocks.ts  
 ```
 
+**Important: currently, generator creates files only the __tests__ folder of project root.**
+
+## 2. Import target method
+Import target method in the test file
+
+in the test file, 
+
 ```javascript
 
-import handler from '../src/target' <----
+import handler from '../src/target' <---- importing function you want to test
 
 /**
  * Test Case Definition
@@ -117,10 +107,9 @@ describe.each(testCase)('Publish state', (d, r, e) => {
 })
 ```
 
+# Define mocks
 
-## import target handler
-
-# Test case example
+You can define mock functions. Key has matched the name of test.
 
 ```javascript
 const mocks: Mocks = {
@@ -135,6 +124,8 @@ const mocks: Mocks = {
 export default mocks
 
 ```
+
+Mock "OK" function will be called when the "OK" test case run.
 
 ```javascript
 /**
