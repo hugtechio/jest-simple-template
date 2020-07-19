@@ -64,15 +64,15 @@ describe.each(testCase)('Test name', (d, r, e) => {
  */
 const mockTemplate = (name) => {
     return `    
-    import { Mocks } from 'jest-simple-template'
+import { Mocks } from 'jest-simple-template'
 
-    const mocks: Mocks = {
-        '${name}': () => {
-            // ToDo: write mock code if needed
-        },
-    }
-    
-    export default mocks
+const mocks: Mocks = {
+    '${name}': () => {
+        // ToDo: write mock code if needed
+    },
+}
+
+export default mocks
     `;
 };
 /**
