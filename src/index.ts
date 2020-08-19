@@ -13,6 +13,15 @@ export interface MockReturn {
     [name: string]: jest.SpyInstance;
 }
 
+export namespace Mock {
+    /**
+     * 
+     */
+    export function SameAs (mocks: Mocks, key: string) {
+        return mocks[key]
+    }
+}
+
 /**
  * Test Case Description
  */
@@ -65,4 +74,21 @@ export const sameAs = (testCase: any, name: string): {} => {
         // @ts-ignore
         c => c[descriptionIndex].name === name
     )[requestIndex]()
+}
+
+/**
+ * 
+ * @param testCase list of the test
+ * @param name name of test case(should be matched name of test)
+ */
+export namespace Request {
+    export function sameAs () {
+        const descriptionIndex = 0
+        const requestIndex = 1
+        // @ts-ignore
+        return testCase.find(
+            // @ts-ignore
+            c => c[descriptionIndex].name === name
+        )[requestIndex]()
+    }    
 }
