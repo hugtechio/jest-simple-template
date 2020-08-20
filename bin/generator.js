@@ -45,7 +45,7 @@ describe.each(testCase)('Test name', (d, r, e) => {
     })
     const testMeta = d as TestCaseMetaData
     it(\`\${testMeta.name}:\${testMeta.description}\`, async () => {
-        let spies
+        let spies: MockReturn = {}
         if (mocks.hasOwnProperty(testMeta.name)) {
             spies = mocks[testMeta.name]()
         }
