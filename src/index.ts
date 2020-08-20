@@ -1,3 +1,5 @@
+import { runInContext } from "vm"
+
 /**
  * list of mocks
  * 
@@ -91,4 +93,36 @@ export namespace Request {
             c => c[descriptionIndex].name === name
         )[requestIndex]()
     }    
+}
+
+/**
+ * Parameter of the Run function
+ */
+export interface RunningParameter {
+    meta: TestCaseMetaData;
+    request: {};
+    mocks: Mocks;
+    expectation: TestCaseExpectedFunction;
+}
+
+/**
+ * doing the test
+ * @param RunningParameter
+ */
+export function run (params: RunningParameter) {
+    beforeEach(() => {
+        jest.resetAllMocks()
+    })
+    const testMeta = params.meta
+    it(`${testMeta.name}:${testMeta.description}`, async () => {
+        let spies: MockReturn = {}
+        if (params.mocks.hasOwnProperty(testMeta.name)) {
+            spies = params.mocks[testMeta.name]()
+        }
+
+        // @ts-ignore
+        const result = await handler(params.request)
+        const expected = params.expectation
+        expected(result, spies)
+    })
 }
