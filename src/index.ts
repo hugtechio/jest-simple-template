@@ -97,11 +97,13 @@ export namespace Request {
 
 /**
  * Parameter of the Run function
+ * Note: testTarget: only accepts Async function
  */
 export interface RunningParameter {
     meta: TestCaseMetaData;
     request: {};
     mocks: Mocks;
+    testTarget: Function;
     expectation: TestCaseExpectedFunction;
 }
 
@@ -121,7 +123,9 @@ export function run (params: RunningParameter) {
         }
 
         // @ts-ignore
-        const result = await handler(params.request)
+        const result = (params.testTarget.constructor.name === 'AsyncFunction')
+            ? await params.testTarget(params.request)
+            : params.testTarget(params.request)
         const expected = params.expectation
         expected(result, spies)
     })
