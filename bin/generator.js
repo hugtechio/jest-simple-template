@@ -69,6 +69,7 @@ import { Mocks } from 'jest-simple-template'
 const mocks: Mocks = {
     '${name}': () => {
         // ToDo: write mock code if needed
+        return {}
     },
 }
 
