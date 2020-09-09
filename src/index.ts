@@ -42,7 +42,7 @@ export type TestExpectation = TestCaseExpectedFunction
  * 
  */
 export interface Mocks {
-    [name: string]: () => {[name: string]: jest.SpyInstance};
+    [name: string]: () => MockReturn;
 }
 
 /**
