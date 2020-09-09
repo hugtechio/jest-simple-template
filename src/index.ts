@@ -4,7 +4,7 @@ import { runInContext } from "vm"
 /**
  * TestCases
  */
-export type TestCases = TestCaseObject[][]
+export type TestCases = TestCaseObject[]
 
 /**
  * TestCase object(tuple)
@@ -64,9 +64,9 @@ export namespace Mock {
 /**
  * Test Case Expected function
  * @param result: result from test target
- * @param spies: mocked objects at ./mocks.ts
+ * @param spies?: mocked objects at ./mocks.ts
  */
-export type TestCaseExpectedFunction = (result: any, spies: MockReturn) => void
+export type TestCaseExpectedFunction = (result: any, spies?: MockReturn) => void
 
 /**
  * alter test input
