@@ -1,5 +1,42 @@
 import { runInContext } from "vm"
 
+
+/**
+ * TestCases
+ */
+export type TestCases = TestCaseObject[][]
+
+/**
+ * TestCase object(tuple)
+ */
+export type TestCaseObject = [
+    TestMetaData,
+    TestInput,
+    TestExpectation
+]
+
+/**
+ * Test Case Description
+ */
+export interface TestCaseMetaData {
+    name: string;
+    description: string;
+}
+/**
+ * Alias Test Case Meta Data
+ */
+export type TestMetaData = TestCaseMetaData
+
+/**
+ * Test Input
+ */
+export type TestInput = string | number | [] | {}
+
+/**
+ * Test Expectation
+ */
+export type TestExpectation = TestCaseExpectedFunction
+
 /**
  * list of mocks
  * 
@@ -22,14 +59,6 @@ export namespace Mock {
     export function SameAs (mocks: Mocks, key: string) {
         return mocks[key]
     }
-}
-
-/**
- * Test Case Description
- */
-export interface TestCaseMetaData {
-    name: string;
-    description: string;
 }
 
 /**
