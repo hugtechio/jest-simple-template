@@ -35,7 +35,7 @@ interface TestInputObject {
 }
 
 type TestInputFunction = () => TestInputValue
-type TestInputValue = () => string | number |  TestInputObject | []
+type TestInputValue = string | number |  TestInputObject | []
 
 /**
  * Test Input

@@ -1,6 +1,6 @@
 {
   "name": "jest-simple-template",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "simple jest template based on iteration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
