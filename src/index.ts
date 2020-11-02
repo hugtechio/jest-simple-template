@@ -28,9 +28,19 @@ export interface TestCaseMetaData {
 export type TestMetaData = TestCaseMetaData
 
 /**
+ * TestInputObject
+ */
+interface TestInputObject {
+    [name: string]: any;
+}
+
+type TestInputFunction = () => TestInputValue
+type TestInputValue = () => string | number |  TestInputObject | []
+
+/**
  * Test Input
  */
-export type TestInput = string | number | [] | {}
+export type TestInput = TestInputFunction | TestInputValue 
 
 /**
  * Test Expectation
