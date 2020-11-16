@@ -13,7 +13,7 @@ export type TestCaseObject = [
     TestMetaData,
     TestInput,
     TestExpectation,
-    TestTarget
+    TestTarget?
 ]
 
 /**
