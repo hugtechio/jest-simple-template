@@ -12,7 +12,8 @@ export type TestCases = TestCaseObject[]
 export type TestCaseObject = [
     TestMetaData,
     TestInput,
-    TestExpectation
+    TestExpectation,
+    TestTarget
 ]
 
 /**
@@ -46,6 +47,11 @@ export type TestInput = TestInputFunction | TestInputValue
  * Test Expectation
  */
 export type TestExpectation = TestCaseExpectedFunction
+
+/**
+ * Test Target
+ */
+export type TestTarget = Function
 
 /**
  * list of mocks
