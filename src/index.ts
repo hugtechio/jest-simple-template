@@ -1,4 +1,3 @@
-import { runInContext } from "vm"
 
 
 /**
@@ -82,7 +81,7 @@ export namespace Mock {
  * @param result: result from test target
  * @param spies?: mocked objects at ./mocks.ts
  */
-export type TestCaseExpectedFunction = (result: any, spies?: MockReturn) => void
+export type TestCaseExpectedFunction = (result: any, spies: MockReturn) => void
 
 /**
  * alter test input
@@ -150,6 +149,24 @@ export interface RunningParameter {
     mocks: Mocks;
     testTarget: Function;
     expectation: TestCaseExpectedFunction;
+}
+
+/**
+ * Dummy Context
+ */
+export const dummyContext: Context = {
+    callbackWaitsForEmptyEventLoop: false,
+    functionName: 'dummy',
+    functionVersion: 'dummy',
+    invokedFunctionArn: 'dummy',
+    memoryLimitInMB: 'dummy',
+    awsRequestId: 'dummy',
+    logGroupName: 'dummy',
+    logStreamName: 'dummy',
+    getRemainingTimeInMillis: () => 1,
+    done: () => {},
+    fail: () => {},
+    succeed: () => {}
 }
 
 /**
