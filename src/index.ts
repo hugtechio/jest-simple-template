@@ -154,7 +154,7 @@ export interface RunningParameter {
 /**
  * Dummy Context
  */
-export const dummyContext: Context = {
+export const dummyContext = {
     callbackWaitsForEmptyEventLoop: false,
     functionName: 'dummy',
     functionVersion: 'dummy',
