@@ -1,14 +1,14 @@
 {
   "name": "jest-simple-template",
-  "version": "0.5.0",
+  "version": "0.4.0",
   "description": "simple jest template based on iteration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "yarn jest --silent --verbose",
     "start": "node -r ts-node/register bin/generator.js",
-    "build": "tsc && cp ./package.json ./dist",
-    "pack": "tar -czvf ./dist/package.tar.gz ./dist"
+    "build": "tsc",
+    "pack": "cp ./package.json ./dist/ && tar -czvf ./dist/package.tar.gz ./dist"
   },
   "bin": {
     "generate_test_set": "./bin/generator.js"
