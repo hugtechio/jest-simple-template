@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "yarn jest --silent --verbose",
-    "start": "node -r ts-node/register bin/generator.js"
+    "start": "node -r ts-node/register bin/generator.js",
+    "build": "tsc"
   },
   "bin": {
     "generate_test_set": "./bin/generator.js"

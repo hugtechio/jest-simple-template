@@ -1,30 +1,23 @@
-name: Simple CI
-
+name: Publish Package to npmjs
 on:
   push:
     branches: 
       - master
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: node
-      uses: actions/setup-node@v1
-    - name: yarn install, build, and test
-      run: |
-        yarn install
-        # yarn test
-    - name: deploy
-      env:
-        NPM_USER: ${{ secrets.npm_user }}
-        NPM_PASS: ${{ secrets.npm_password }}
-        NPM_EMAIL: ${{ secrets.npm_email }}
-      run: |
-        npm install -g npm-cli-login
-        npm-cli-login
-        tsc
-        npm publish
+      - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - name: deploy
+        env:
+          NPM_TOKEN: ${{secret.NPM_TOKEN}}
+        run: |
+          cp ./package.json ./dist/
+          echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > ./dist/.npmrc
+          npm publish ./dist
