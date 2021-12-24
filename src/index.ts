@@ -81,7 +81,7 @@ export namespace Mock {
  * @param result: result from test target
  * @param spies?: mocked objects at ./mocks.ts
  */
-export type TestCaseExpectedFunction = (result: any, spies: MockReturn) => void
+export type TestCaseExpectedFunction = (result: any, spies: MockReturn | undefined) => void
 
 /**
  * alter test input
