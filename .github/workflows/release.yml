@@ -16,7 +16,7 @@ jobs:
       - run: yarn install 
       - name: deploy
         env:
-          NPM_TOKEN: ${{secret.NPM_TOKEN}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           tsc
           cp ./package.json ./dist/
