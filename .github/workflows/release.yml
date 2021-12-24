@@ -13,11 +13,12 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
+      - run: yarn install 
       - name: deploy
         env:
           NPM_TOKEN: ${{secret.NPM_TOKEN}}
         run: |
+          tsc
           cp ./package.json ./dist/
           echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > ./dist/.npmrc
           npm publish ./dist
